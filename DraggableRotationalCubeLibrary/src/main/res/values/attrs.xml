@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FontStyle">
+        <attr name="_6ssp" format="dimension" />
+        <attr name="font_small" format="dimension" />
+        <attr name="font_medium" format="dimension" />
+        <attr name="font_large" format="dimension" />
+        <attr name="font_xlarge" format="dimension" />
+        <attr name="_15ssp" format="dimension" />
+        <attr name="_18ssp" format="dimension" />
+        <attr name="_20ssp" format="dimension" />
+        <attr name="_22ssp" format="dimension" />
+        <attr name="_24ssp" format="dimension" />
+    </declare-styleable>
+
+
+</resources>
