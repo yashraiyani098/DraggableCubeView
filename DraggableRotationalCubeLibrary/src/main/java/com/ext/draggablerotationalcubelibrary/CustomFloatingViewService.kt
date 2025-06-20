@@ -42,17 +42,21 @@ class CustomFloatingViewService : Service(), FloatingViewListener {
         val sliderAdapter = SliderAdapter(this)
         imageSlider.adapter = sliderAdapter
         imageSlider.setPageTransformer(CubeOutTransformer())
-        imageSlider.setScrollDurationFactor(5.0)
+        // Set scroll duration factor for 2-second rotation
+        imageSlider.setScrollDurationFactor(100.0)
 
         handler = Handler()
         runnable = Runnable {
             val currentItem = imageSlider.currentItem
             val nextItem = (currentItem + 1) % sliderAdapter.itemCount
             imageSlider.currentItem = nextItem
-            handler!!.postDelayed(runnable!!, 5000)
+            // 3-second delay between rotations
+            // 3-second delay between rotations
+            handler!!.postDelayed(runnable!!, 3000)
         }
 
-        handler!!.post(runnable!!)
+        // Start the first rotation after a small delay
+        handler!!.postDelayed(runnable!!, 1500)
 
         mFloatingViewManager = FloatingViewManager(this, this)
         loadDynamicOptions()

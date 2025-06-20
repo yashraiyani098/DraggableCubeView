@@ -16,7 +16,7 @@ import java.lang.reflect.Field;
 public class ViewPager2CustomDuration extends FrameLayout {
 
     private ViewPager2 viewPager2;
-    private double scrollDurationFactor = 1.0;
+    private double scrollDurationFactor = 3.0;
 
     public ViewPager2CustomDuration(@NonNull Context context) {
         super(context);
@@ -58,8 +58,18 @@ public class ViewPager2CustomDuration extends FrameLayout {
             scrollerField.setAccessible(true);
             Object scroller = scrollerField.get(viewFlinger);
 
+            // Get the interpolator from ViewPager2
+            Field interpolatorField = ViewPager2.class.getDeclaredField("sInterpolator");
+            interpolatorField.setAccessible(true);
+            android.view.animation.Interpolator interpolator = (android.view.animation.Interpolator) interpolatorField.get(null);
+
+            // Create our custom scroller with interpolator
+            ScrollerCustomDuration customScroller = new ScrollerCustomDuration(getContext(), interpolator);
+            
+            // Set the initial scroll duration factor
+            customScroller.setScrollDurationFactor(scrollDurationFactor);
+            
             // Replace with our custom scroller
-            ScrollerCustomDuration customScroller = new ScrollerCustomDuration(getContext());
             scrollerField.set(viewFlinger, customScroller);
         } catch (Exception e) {
             // If reflection fails, we'll use the default behavior
