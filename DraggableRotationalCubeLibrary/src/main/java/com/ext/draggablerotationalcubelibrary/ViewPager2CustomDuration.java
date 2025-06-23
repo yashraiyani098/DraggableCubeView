@@ -2,7 +2,6 @@ package com.ext.draggablerotationalcubelibrary;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
@@ -65,10 +64,10 @@ public class ViewPager2CustomDuration extends FrameLayout {
 
             // Create our custom scroller with interpolator
             ScrollerCustomDuration customScroller = new ScrollerCustomDuration(getContext(), interpolator);
-            
+
             // Set the initial scroll duration factor
             customScroller.setScrollDurationFactor(scrollDurationFactor);
-            
+
             // Replace with our custom scroller
             scrollerField.set(viewFlinger, customScroller);
         } catch (Exception e) {

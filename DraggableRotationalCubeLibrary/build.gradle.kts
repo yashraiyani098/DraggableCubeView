@@ -43,6 +43,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.dynamicanimation.ktx)
     implementation("androidx.viewpager2:viewpager2:1.1.0")
+    
 
     // Exclude old support library from all dependencies
     configurations.all {

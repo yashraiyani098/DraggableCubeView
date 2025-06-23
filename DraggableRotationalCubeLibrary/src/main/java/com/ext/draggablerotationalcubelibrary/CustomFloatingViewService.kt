@@ -1,5 +1,6 @@
 package com.ext.draggablerotationalcubelibrary
 
+import android.annotation.SuppressLint
 import android.app.Service
 import android.content.Intent
 import android.os.Handler
@@ -10,11 +11,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
+import androidx.viewpager.widget.ViewPager
 import androidx.viewpager2.widget.ViewPager2
-import androidx.viewpager2.widget.ViewPager2.PageTransformer
-import kotlin.math.abs
-
 import com.ext.draggablerotationalcubelibrary.InitApplication.Companion.instance
+import com.ext.draggablerotationalcubelibrary.CubeItemData
+import java.util.ArrayList
+
 
 class CustomFloatingViewService : Service(), FloatingViewListener {
     private var handler: Handler? = null
@@ -22,6 +24,7 @@ class CustomFloatingViewService : Service(), FloatingViewListener {
     private var mFloatingViewManager: FloatingViewManager? = null
     private var width: Int = 0
     private var height: Int = 0
+    @SuppressLint("ServiceCast")
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         if (mFloatingViewManager != null) {
             return START_STICKY
@@ -34,29 +37,28 @@ class CustomFloatingViewService : Service(), FloatingViewListener {
         width = metrics.widthPixels
         val inflater = LayoutInflater.from(this)
         val iconView = inflater.inflate(R.layout.floating_layout_cube, null, false)
-        val imageSlider = iconView.findViewById<ViewPager2CustomDuration>(R.id.imageSlider)
+        val imageSlider = iconView.findViewById<ViewPagerCustomDuration>(R.id.imageSlider)
         iconView.setOnClickListener { v: View? -> }
         if (handler != null) {
             handler!!.removeCallbacks(runnable!!)
         }
-        val sliderAdapter = SliderAdapter(this)
-        imageSlider.adapter = sliderAdapter
-        imageSlider.setPageTransformer(CubeOutTransformer())
-        // Set scroll duration factor for 2-second rotation
-        imageSlider.setScrollDurationFactor(100.0)
+
+        // Get the cube data from intent
+        val cubeData = intent.getParcelableArrayListExtra<CubeItemData>(EXTRA_CUBE_DATA)
+        
+        val sliderAdapter = SliderAdapter(this, cubeData ?: emptyList())
+        val mAdapater = EndlessPagerAdapter(sliderAdapter)
+        imageSlider.adapter = mAdapater
+        imageSlider.setPageTransformer(false, CubeOutTransformer() as ViewPager.PageTransformer)
+        imageSlider.setScrollDurationFactor(10.0)
 
         handler = Handler()
         runnable = Runnable {
-            val currentItem = imageSlider.currentItem
-            val nextItem = (currentItem + 1) % sliderAdapter.itemCount
-            imageSlider.currentItem = nextItem
-            // 3-second delay between rotations
-            // 3-second delay between rotations
-            handler!!.postDelayed(runnable!!, 3000)
+            imageSlider.currentItem += 1
+            handler!!.postDelayed(runnable!!, 5000)
         }
 
-        // Start the first rotation after a small delay
-        handler!!.postDelayed(runnable!!, 1500)
+        handler!!.post(runnable!!)
 
         mFloatingViewManager = FloatingViewManager(this, this)
         loadDynamicOptions()
@@ -182,35 +184,11 @@ class CustomFloatingViewService : Service(), FloatingViewListener {
         return options
     }
 
-    /**
-     * Custom Cube Out Transformer for AndroidX ViewPager2
-     */
-    private class CubeOutTransformer : PageTransformer {
-        override fun transformPage(page: View, position: Float) {
-            val pageWidth = page.width
-            when {
-                position < -1 -> {
-                    // This page is way off-screen to the left
-                    page.alpha = 0f
-                }
-                position <= 1 -> {
-                    page.alpha = 1f
-                    page.pivotX = if (position < 0) pageWidth.toFloat() else 0f
-                    page.pivotY = page.height * 0.5f
-                    page.rotationY = -90f * position
-                }
-                else -> {
-                    // This page is way off-screen to the right
-                    page.alpha = 0f
-                }
-            }
-        }
-    }
 
     companion object {
         private const val PREF_KEY_LAST_POSITION_X = "last_position_x"
         private const val PREF_KEY_LAST_POSITION_Y = "last_position_y"
-        const val EXTRA_CUTOUT_SAFE_AREA: String = "cutout_safe_area"
-
+        const val EXTRA_CUTOUT_SAFE_AREA = "EXTRA_CUTOUT_SAFE_AREA"
+        const val EXTRA_CUBE_DATA = "EXTRA_CUBE_DATA"
     }
 }

@@ -33,7 +33,7 @@
 
         </androidx.cardview.widget.CardView>
 
-        <com.ext.draggablerotationalcubelibrary.ViewPager2CustomDuration
+        <com.ext.draggablerotationalcubelibrary.ViewPagerCustomDuration
             android:id="@+id/imageSlider"
             android:layout_width="125dp"
             android:layout_height="125dp"
