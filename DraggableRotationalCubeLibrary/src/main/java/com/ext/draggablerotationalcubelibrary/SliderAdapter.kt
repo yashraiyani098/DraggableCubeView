@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
-import com.ext.draggablerotationalcubelibrary.CubeItemData
 import com.ext.draggablerotationalcubelibrary.databinding.FloatingSliderItemBinding
+import com.bumptech.glide.Glide
 
 class SliderAdapter(
     private val context: Context,
@@ -23,10 +23,28 @@ class SliderAdapter(
         val binding = FloatingSliderItemBinding.inflate(inflater, container, false)
         val itemData = data[position]
 
-        // Set the data to views
+        // Set header visibility and text
+        binding.txtHeader.visibility = if (itemData.headerVisible && itemData.header.isNotEmpty()) View.VISIBLE else View.GONE
         binding.txtHeader.text = itemData.header
-        binding.txtDetected.text = "Detected: ${itemData.detected}"
-        binding.txtDeath.text = "Deaths: ${itemData.death}"
+
+        // Set image visibility and load image
+        binding.imgContent.visibility = if (itemData.imageVisible && itemData.image != null) View.VISIBLE else View.GONE
+        if (itemData.imageVisible && itemData.image != null) {
+            when (itemData.image) {
+                is Int -> Glide.with(context)
+                    .load(itemData.image)
+                    .into(binding.imgContent)
+                is String -> if (itemData.image.isNotEmpty()) {
+                    Glide.with(context)
+                        .load(itemData.image)
+                        .into(binding.imgContent)
+                }
+            }
+        }
+
+        // Set description visibility and text
+        binding.txtDescription.visibility = if (itemData.descriptionVisible && itemData.description.isNotEmpty()) View.VISIBLE else View.GONE
+        binding.txtDescription.text = itemData.description
 
         container.addView(binding.root)
         return binding.root

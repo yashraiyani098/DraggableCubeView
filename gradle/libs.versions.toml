@@ -14,9 +14,12 @@ material = "1.12.0"
 activity = "1.10.1"
 constraintlayout = "2.0.1"
 dynamicanimationKtx = "1.1.0"
+picasso = "2.8"
+viewpager2 = "1.1.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-viewpager2 = { module = "androidx.viewpager2:viewpager2", version.ref = "viewpager2" }
 common = { module = "com.google.mlkit:common", version.ref = "common" }
 core-ktx = { module = "androidx.test:core-ktx", version.ref = "coreKtxVersion" }
 firebase-database-ktx = { module = "com.google.firebase:firebase-database-ktx", version.ref = "firebaseDatabaseKtx" }
@@ -29,6 +32,7 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-activity = { group = "androidx.activity", name = "activity", version.ref = "activity" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 androidx-dynamicanimation-ktx = { group = "androidx.dynamicanimation", name = "dynamicanimation-ktx", version.ref = "dynamicanimationKtx" }
+picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

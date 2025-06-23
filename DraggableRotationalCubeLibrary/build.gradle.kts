@@ -42,8 +42,9 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.material)
     implementation(libs.androidx.dynamicanimation.ktx)
-    implementation("androidx.viewpager2:viewpager2:1.1.0")
-    
+    implementation(libs.androidx.viewpager2)
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    annotationProcessor("com.github.bumptech.glide:compiler:4.16.0")
 
     // Exclude old support library from all dependencies
     configurations.all {

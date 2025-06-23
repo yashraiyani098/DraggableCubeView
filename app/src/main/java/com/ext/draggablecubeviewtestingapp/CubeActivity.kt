@@ -47,28 +47,95 @@ class CubeActivity : AppCompatActivity()  {
 
     private fun initCubeData() {
         cubeItemData = mutableListOf(
-            CubeItemData("COVID-19", "1,234", "567"),
-            CubeItemData("vaccation", "20 days", "789"),
-            CubeItemData("uasfsgf", "4,54", "846"),
-            CubeItemData("Active Cases", "2,345", "678"),
-            CubeItemData("Recovered", "9,012", "345")
+            // Full content: header, image, description
+            CubeItemData(
+                header = "Full Content",
+                headerVisible = true,
+                image = R.drawable.img,  // Using resource ID directly
+                imageVisible = true,
+                description = "This is a full content item with header, image, and description",
+                descriptionVisible = true
+            ),
+            // Example with URL
+            CubeItemData(
+                header = "URL Image",
+                headerVisible = true,
+                image = R.drawable.img,  // Using resource ID directly
+                imageVisible = true,
+                description = "This item uses an image URL",
+                descriptionVisible = true
+            ),
+            // Header and Image only
+            CubeItemData(
+                header = "Header & Image",
+                headerVisible = true,
+                image = R.drawable.img,  // Using resource ID directly
+                imageVisible = true,
+                description = "",
+                descriptionVisible = false
+            ),
+            // Header and Description only
+            CubeItemData(
+                header = "Header & Description",
+                headerVisible = true,
+                image = "",
+                imageVisible = false,
+                description = "This item has header and description only",
+                descriptionVisible = true
+            ),
+            // Image and Description only
+            CubeItemData(
+                header = "",
+                headerVisible = false,
+                image = R.drawable.img,  // Using resource ID directly
+                imageVisible = true,
+                description = "This item has image and description only",
+                descriptionVisible = true
+            ),
+            // Header only
+            CubeItemData(
+                header = "Header Only",
+                headerVisible = true,
+                image = "",
+                imageVisible = false,
+                description = "",
+                descriptionVisible = false
+            ),
+            // Image only
+            CubeItemData(
+                header = "",
+                headerVisible = false,
+                image = R.drawable.img,  // Using resource ID directly
+                imageVisible = true,
+                description = "",
+                descriptionVisible = false
+            ),
+            // Description only
+            CubeItemData(
+                header = "",
+                headerVisible = false,
+                image = "",
+                imageVisible = false,
+                description = "Description Only",
+                descriptionVisible = true
+            )
         )
     }
 
-    private fun modifyCubeData() {
-        // Example of modifying data
-        cubeItemData[0] = cubeItemData[0].copy(
-            header = "Updated COVID-19",
-            detected = "1,500",
-            death = "600"
-        )
-        
-        // Notify the floating view to update
-        val intent = Intent(this, CustomFloatingViewService::class.java)
-        intent.action = "UPDATE_CUBE_DATA"
-        intent.putParcelableArrayListExtra("CUBE_ITEM_DATA", ArrayList(cubeItemData))
-        startService(intent)
-    }
+//    private fun modifyCubeData() {
+//        // Example of modifying data
+//        cubeItemData[0] = cubeItemData[0].copy(
+//            header = "Updated COVID-19",
+//            detected = "1,500",
+//            death = "600"
+//        )
+//
+//        // Notify the floating view to update
+//        val intent = Intent(this, CustomFloatingViewService::class.java)
+//        intent.action = "UPDATE_CUBE_DATA"
+//        intent.putParcelableArrayListExtra("CUBE_ITEM_DATA", ArrayList(cubeItemData))
+//        startService(intent)
+//    }
 
     override fun onResume() {
         super.onResume()
