@@ -180,6 +180,7 @@ For support, please:
 - Open a new issue if you can't find a solution
 - Contact us at [your email]
 
+
 ## Acknowledgments
 
 - Thanks to all contributors
