@@ -39,6 +39,11 @@ class CubeActivity : AppCompatActivity()  {
             val intent = Intent(this, CustomFloatingViewService::class.java)
             intent.putExtra(CustomFloatingViewService.EXTRA_CUTOUT_SAFE_AREA, FloatingViewManager.findCutoutSafeArea(this))
             intent.putParcelableArrayListExtra(CustomFloatingViewService.EXTRA_CUBE_DATA, ArrayList(cubeItemData))
+            
+            // Add configurable values
+            intent.putExtra(CustomFloatingViewService.EXTRA_SCROLL_DURATION_FACTOR, 0.2) // Change this value to adjust scroll duration
+            intent.putExtra(CustomFloatingViewService.EXTRA_DELAY_TIME, 500L) // Change this value to adjust delay time in milliseconds
+            
             startService(intent)
         }
 
@@ -122,20 +127,7 @@ class CubeActivity : AppCompatActivity()  {
         )
     }
 
-//    private fun modifyCubeData() {
-//        // Example of modifying data
-//        cubeItemData[0] = cubeItemData[0].copy(
-//            header = "Updated COVID-19",
-//            detected = "1,500",
-//            death = "600"
-//        )
-//
-//        // Notify the floating view to update
-//        val intent = Intent(this, CustomFloatingViewService::class.java)
-//        intent.action = "UPDATE_CUBE_DATA"
-//        intent.putParcelableArrayListExtra("CUBE_ITEM_DATA", ArrayList(cubeItemData))
-//        startService(intent)
-//    }
+
 
     override fun onResume() {
         super.onResume()

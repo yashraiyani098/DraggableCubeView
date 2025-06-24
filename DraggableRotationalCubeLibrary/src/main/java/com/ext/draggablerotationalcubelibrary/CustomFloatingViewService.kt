@@ -12,18 +12,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.WindowManager
 import androidx.viewpager.widget.ViewPager
-import androidx.viewpager2.widget.ViewPager2
 import com.ext.draggablerotationalcubelibrary.InitApplication.Companion.instance
-import com.ext.draggablerotationalcubelibrary.CubeItemData
-import java.util.ArrayList
 
 
 class CustomFloatingViewService : Service(), FloatingViewListener {
+
+    
     private var handler: Handler? = null
     private var runnable: Runnable? = null
     private var mFloatingViewManager: FloatingViewManager? = null
     private var width: Int = 0
     private var height: Int = 0
+    private var scrollDurationFactor: Double = DEFAULT_SCROLL_DURATION_FACTOR
+    private var delayTimeMs: Int = DEFAULT_DELAY_TIME_MS
     @SuppressLint("ServiceCast")
     override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
         if (mFloatingViewManager != null) {
@@ -50,12 +51,16 @@ class CustomFloatingViewService : Service(), FloatingViewListener {
         val mAdapater = EndlessPagerAdapter(sliderAdapter)
         imageSlider.adapter = mAdapater
         imageSlider.setPageTransformer(false, CubeOutTransformer() as ViewPager.PageTransformer)
-        imageSlider.setScrollDurationFactor(10.0)
+        // Get configurable values from intent
+        scrollDurationFactor = intent.getDoubleExtra(EXTRA_SCROLL_DURATION_FACTOR, DEFAULT_SCROLL_DURATION_FACTOR)
+        delayTimeMs = intent.getLongExtra(EXTRA_DELAY_TIME, DEFAULT_DELAY_TIME_MS.toLong()).toInt()
+        
+        imageSlider.setScrollDurationFactor(scrollDurationFactor)
 
         handler = Handler()
         runnable = Runnable {
             imageSlider.currentItem += 1
-            handler!!.postDelayed(runnable!!, 5000)
+            handler!!.postDelayed(runnable!!, delayTimeMs.toLong())
         }
 
         handler!!.post(runnable!!)
@@ -190,5 +195,11 @@ class CustomFloatingViewService : Service(), FloatingViewListener {
         private const val PREF_KEY_LAST_POSITION_Y = "last_position_y"
         const val EXTRA_CUTOUT_SAFE_AREA = "EXTRA_CUTOUT_SAFE_AREA"
         const val EXTRA_CUBE_DATA = "EXTRA_CUBE_DATA"
+        const val EXTRA_SCROLL_DURATION_FACTOR = "scroll_duration_factor"
+        const val EXTRA_DELAY_TIME = "delay_time_ms"
+
+        // Default values
+        private const val DEFAULT_SCROLL_DURATION_FACTOR = 10.0
+        private const val DEFAULT_DELAY_TIME_MS = 5000
     }
 }
