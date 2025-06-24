@@ -41,8 +41,8 @@ class CubeActivity : AppCompatActivity()  {
             intent.putParcelableArrayListExtra(CustomFloatingViewService.EXTRA_CUBE_DATA, ArrayList(cubeItemData))
             
             // Add configurable values
-            intent.putExtra(CustomFloatingViewService.EXTRA_SCROLL_DURATION_FACTOR, 0.2) // Change this value to adjust scroll duration
-            intent.putExtra(CustomFloatingViewService.EXTRA_DELAY_TIME, 500L) // Change this value to adjust delay time in milliseconds
+            intent.putExtra(CustomFloatingViewService.EXTRA_SCROLL_DURATION_FACTOR, 5.0) // Change this value to adjust scroll duration
+            intent.putExtra(CustomFloatingViewService.EXTRA_DELAY_TIME, 5000L) // Change this value to adjust delay time in milliseconds
             
             startService(intent)
         }

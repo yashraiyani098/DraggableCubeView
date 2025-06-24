@@ -99,6 +99,19 @@ startService(intent)
 
 ## Customization
 
+### Configurable Parameters
+The floating cube view now supports additional configurable parameters that can be set when starting the service:
+
+```kotlin
+intent.putExtra(CustomFloatingViewService.EXTRA_SCROLL_DURATION_FACTOR, 5.0)  // Adjusts the scroll duration factor (default: 1.0)
+intent.putExtra(CustomFloatingViewService.EXTRA_DELAY_TIME, 5000L)            // Sets the delay time between slides in milliseconds (default: 2000)
+```
+
+- `EXTRA_SCROLL_DURATION_FACTOR`: Controls the smoothness of the slide transitions. Higher values make transitions slower and smoother.
+- `EXTRA_DELAY_TIME`: Sets the time interval between automatic slide transitions. Set to 0 to disable automatic sliding.
+
+### UI Customization
+
 ### CubeItemData Properties
 
 - `header`: String - Header text
@@ -113,6 +126,25 @@ startService(intent)
 - `floatingViewX`: Initial X position
 - `floatingViewY`: Initial Y position
 - `animateInitialMove`: Enable/disable initial animation
+- `scrollDurationFactor`: Double - Controls the duration of page transitions (default: 10.0)
+- `delayTimeMs`: Int - Controls the delay between automatic page changes (default: 5000ms)
+
+#### Configuring Scroll Duration and Delay
+You can configure the scroll duration and delay time when starting the floating view service:
+
+```kotlin
+val intent = Intent(this, CustomFloatingViewService::class.java)
+intent.putExtra(CustomFloatingViewService.EXTRA_CUTOUT_SAFE_AREA, 
+    FloatingViewManager.findCutoutSafeArea(this))
+intent.putParcelableArrayListExtra(CustomFloatingViewService.EXTRA_CUBE_DATA, 
+    ArrayList(cubeItems))
+
+// Configure scroll duration and delay
+intent.putExtra(CustomFloatingViewService.EXTRA_SCROLL_DURATION_FACTOR, 5.0) // Adjust scroll duration
+intent.putExtra(CustomFloatingViewService.EXTRA_DELAY_TIME, 3000) // Adjust delay time in milliseconds
+
+startService(intent)
+```
 
 ## Project Structure
 
